@@ -1,0 +1,10 @@
+palavra, significado1, significado2
+palavrinha, sig1, sig2
+
+teste, tatatata, blab
+
+lala, lele
+listinha, primeiro
+testando, testinha
+camisa, jake
+phantom, opera
