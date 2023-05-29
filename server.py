@@ -4,7 +4,7 @@ import sys
 import threading
 
 #servidor que dispara um processo filho a cada conexao
-from rpyc.utils.server import ForkingServer
+from rpyc.utils.server import ThreadedServer
 
 PORT = 10020 # porta de acesso
 
@@ -72,17 +72,18 @@ class Dict(rpyc.Service):
 		else:	
 			if chave[1] in self.dicionario:
 				sorted = self.dicionario[chave[1]]
+				num = sorted[0]
 				del sorted[0]
 				sorted.sort()
-				self.dicionario.update({chave[1]:sorted})
-				return self.dicionario[chave[1]]
+				self.dicionario[chave[1]].insert(0, num)
+				return sorted
 			else:
 				return '[]'
 			
 	def checaAdicao(self, cmd):
 		add = cmd.split()
 		if len(add) != 3:
-			return "Erro", "Erro"
+			return "Sintaxe incorreta."
 		elif add[1] in self.dicionario:
 			definicoes = self.dicionario[add[1]]
 			definicoes.append(add[2])
@@ -91,7 +92,7 @@ class Dict(rpyc.Service):
 			with open('dicionario.txt', 'r+') as arq:
 				linhas = arq.readlines()
 				#o primeiro valor da lista é o número da linha onde está aquela palavra
-				linhas[definicoes[0]] = linhas[definicoes[0]].strip() + ', ' + add[2] + '\n'
+				linhas[int(definicoes[0])] = linhas[int(definicoes[0])].strip() + ', ' + add[2] + '\n'
 				arq.seek(0)
 				for linha in linhas:
 					arq.write(linha)
@@ -99,7 +100,7 @@ class Dict(rpyc.Service):
 			resp = "Definição adicionada: " + add[2]
 			return resp
 		else:
-			with open('dicionario.txt', 'a') as arq:
+			with open('dicionario.txt', 'a', encoding='utf-8') as arq:
 				arq.write(add[1] + ', ' + add[2] + '\n')
 
 			definicoes = [self.num_linhas]
@@ -116,7 +117,7 @@ class Dict(rpyc.Service):
 
 def main():
 	print("Pronto para receber conexoes...")
-	srv = ForkingServer(Dict, port = PORT)
+	srv = ThreadedServer(Dict, port = PORT)
 	srv.start()
 
 

@@ -17,7 +17,7 @@ def iniciaCliente():
 def fazRequisicoes(conn):
 	# le as mensagens do usuario ate ele digitar 'fim'
 	while True: 
-		msg = input("\nO que deseja fazer?\nOpções:\n > Adicionar palavra/significado: Digite 'Add <palavra> <significado>'\n > Listar significados: Digite 'List <palavra>'\n > Fechar conexão: Digite 'Fim'\n > Deletar palavra: Digite 'Del <palavra>'\n\n")
+		msg = input("\nO que deseja fazer?\nOpções:\n > Adicionar palavra/significado: Digite 'Add <palavra> <significado>'\n > Listar significados: Digite 'List <palavra>'\n > Deletar palavra: Digite 'Del <palavra>'\n > Fechar conexão: Digite 'Fim'\n\n")
 		if msg == 'Fim': break 
 
 		# envia a mensagem do usuario para o servidor
