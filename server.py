@@ -9,7 +9,7 @@ from rpyc.utils.server import ThreadedServer
 PORT = 10020 # porta de acesso
 
 
-class Dict(rpyc.Service):
+class Dictionary(rpyc.Service):
 	dicionario = {}
 	num_linhas = 0
 
